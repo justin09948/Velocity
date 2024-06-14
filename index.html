@@ -14,7 +14,7 @@
     </h1>
     <div class="header">
         <h1 id="wpm">WPM: </h1>
-        <h2>
+        <h2 id="acc">
             Accuracy: 
         </h2>
     </div>
@@ -22,7 +22,7 @@
         <p id="words">
             
         </p>
-        <input type="text" id="input">
+        <input type="text"  id="input" autocomplete="off" oninput="isCorrect(); afterCompletion();">
         <button id="reset" onclick="reset();">Start</button>
     </div>
     

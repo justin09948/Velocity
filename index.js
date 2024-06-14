@@ -47,11 +47,26 @@ let hard = ['absurd', 'accidentally', 'accommodate', 'acquaintance', 'aggressive
     'ubiquitous', 'vexatious', 'writhe', 'xenophobic', 'yonder', 'zenith'];
 
 let words = document.getElementById("words");
+let startTime;
+let timerInterval;
+let finalTime;
+let wpmElement = document.getElementById("wpm");
+let accElement = document.getElementById("acc");
+let acc;
+let error = 0;
+let charCount = 0;
+
 words.textContent = "Press Start";
 
 
 function reset(){
     let textArr = [];
+    error = 0;
+    charCount = 0;
+    acc = null;
+    wpm = null;
+    wpmElement.textContent = "WPM: ";
+    accElement.textContent = "Accuracy: ";
     let output = "";
     words.style.color = "white";
     input.disabled = false;
@@ -68,6 +83,10 @@ function reset(){
             output += word + " ";
         }
     }
+    let wordsString = words.textContent;
+    for(let i = 0;i<wordsString.length;i++){
+        charCount++;
+    }
     document.getElementById("input").value = '';
     words.textContent = output;
     startTime = null;
@@ -75,84 +94,97 @@ function reset(){
 
 }
 
-function isCorrect() {
-    let input = document.getElementById("input").value;
-    let wordsText = words.textContent.trim();
-    let errorCount = 0;
-    let span;
-    words.textContent = '';
+// function isCorrect() {
+//     let input = document.getElementById("input").value;
+//     let wordsText = words.textContent.trim();
+//     let errorCount = 0;
+//     let span;
+//     words.textContent = '';
     
-    if (wordsText === input) {
-        words.style.color = "green";
-        words.textContent = wordsText;
-        return true;
-    } else {
-        let minLength = Math.min(input.length, wordsText.length);
-        for (let i = 0; i < minLength; i++) {
-            span = document.createElement("span");
-            span.textContent = wordsText[i]; 
+//     if (wordsText === input) {
+//         words.style.color = "green";
+//         words.textContent = wordsText;
+//         return true;
+//     } else {
+//         let minLength = Math.min(input.length, wordsText.length);
+//         for (let i = 0; i < minLength; i++) {
+//             span = document.createElement("span");
+//             span.textContent = wordsText[i]; 
             
-            if (wordsText[i] !== input[i]) {
-                span.style.color = "red"; 
-                errorCount++;
-            }
+//             if (wordsText[i] !== input[i]) {
+//                 span.style.color = "red"; 
+//                 errorCount++;
+//             }
             
-            words.appendChild(span); 
-        }
+//             words.appendChild(span); 
+//         }
         
-        if (input.length > wordsText.length) {
-            for (let i = minLength; i < wordsText.length; i++) {
-                span = document.createElement("span");
-                span.textContent = input[i];
-                span.style.color = "red";
-                words.appendChild(span);
-            }
+//         if (input.length > wordsText.length) {
+//             for (let i = minLength; i < wordsText.length; i++) {
+//                 span = document.createElement("span");
+//                 span.textContent = input[i];
+//                 span.style.color = "red";
+//                 words.appendChild(span);
+//             }
 
             
-        } else if (wordsText.length > input.length) {
-            for (let i = minLength; i < wordsText.length; i++) {
-                span = document.createElement("span");
-                span.textContent = wordsText[i];
-                span.style.color = "red";
-                words.appendChild(span);
-            }
-        }
+//         } else if (wordsText.length > input.length) {
+//             for (let i = minLength; i < wordsText.length; i++) {
+//                 span = document.createElement("span");
+//                 span.textContent = wordsText[i];
+//                 span.style.color = "red";
+//                 words.appendChild(span);
+//             }
+//         }
+//         return false;
+//     }
+// }
+
+function isCorrect(){
+    let inputElement = document.getElementById("input");
+    let input = inputElement.value;
+    let current = input.length - 1;
+    let modifiedSentence;
+    if(input.charAt(current) === words.textContent.charAt(current)){
+        modifiedSentence = words.textContent.slice(0, current) + '<span style="color: white;">' + words.textContent.charAt(current) + '</span>' + words.textContent.slice(current+1);
+        words.innerHTML = modifiedSentence;
+        return true;
+    }
+    else{
+        modifiedSentence = words.textContent.slice(0, current) + '<span style="color: red;">' + words.textContent.charAt(current) + '</span>' + words.textContent.slice(current+1);
+        words.innerHTML = modifiedSentence;
+        error++;
         return false;
     }
 }
 
+
 function isCompleted(){
-    return words.style.color === "green";
+    return document.getElementById("input").value === words.textContent;
 }
 
-let startTime;
-let timerInterval;
-let finalTime;
-let wpmElement = document.getElementById("wpm");
+function afterCompletion(){
+    if (startTime) {
+        clearInterval(timerInterval);
+        if(isCompleted()){
+            finalTime = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById("wpm").textC
+            startTime = null;
+            let wpm = Math.round((10 / (finalTime / 60)));
+            wpmElement.textContent = `WPM: ${wpm}`;
+            acc = Math.round(((charCount - error) / charCount)*100);
+            accElement.textContent = `Accuracy: ${acc}%`
+            input.disabled = true;
+        }
+    }
+}
+
 document.addEventListener('keydown',function(event){
     if(!startTime && event.key != 'Enter'){
         startTime = Date.now();
         timerInterval = setInterval(updateTimer, 1000);
     }
 });
-
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      if (startTime) {
-        clearInterval(timerInterval);
-        if(isCorrect()){
-            finalTime = Math.floor((Date.now() - startTime) / 1000);
-            document.getElementById("wpm").textC
-            startTime = null;
-            let wpm = Math.round((10 / (finalTime / 60)));
-            wpmElement.textContent = `WPM: ${wpm}`;
-        }
-        if(isCompleted()){
-            input.disabled = true;
-        }
-      }
-    }
-  });
 
 
 // let input = document.getElementById("input");
