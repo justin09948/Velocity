@@ -83,15 +83,16 @@ function reset(){
             output += word + " ";
         }
     }
-    let wordsString = words.textContent;
-    for(let i = 0;i<wordsString.length;i++){
-        charCount++;
-    }
     document.getElementById("input").value = '';
     words.textContent = output;
     startTime = null;
     clearInterval(timerInterval);
-
+}
+function newCharacterCount(){
+    let wordsString = words.textContent;
+    for(let i = 0;i<wordsString.length;i++){
+        charCount++;
+    }
 }
 
 // function isCorrect() {
