@@ -1,16 +1,24 @@
 body{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     height: 100vh;
     background-color: rgb(44, 44, 44);
 }
-h1{
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    padding: 1px;
+    margin: 1px;
+}
+.item{
+    padding-right: 200px;
+}
+nav h1{
     color: plum;
+    font-size: 80px;
 }
 .header{
     display: flex;
@@ -18,6 +26,7 @@ h1{
 .header h1{
     color: lightblue;
     flex: 1;
+    font-size: 30px;
     margin-right: 50px;
 }
 
@@ -25,6 +34,16 @@ h1{
     color: gold;
     font-size: 30px;
     margin-left: 50px;
+}
+.selectors a{
+    text-decoration: none;
+    color: rgb(79, 79, 79);
+}
+.center-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
 }
 .container{
     display: flex;
@@ -54,5 +73,8 @@ h1{
     margin-right: 200px;
     border: none;
     height: 30px;
+    background-color: rgb(44, 44, 44);
+    color: white;
+    font-size: 20px;
     cursor: pointer;
 }

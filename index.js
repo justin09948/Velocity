@@ -55,22 +55,49 @@ let accElement = document.getElementById("acc");
 let acc;
 let error = 0;
 let charCount = 0;
+let selectedLink;
 
 words.textContent = "Press Start";
 
 
 function reset(){
-    let textArr = [];
     error = 0;
     charCount = 0;
     acc = null;
     wpm = null;
     wpmElement.textContent = "WPM: ";
     accElement.textContent = "Accuracy: ";
-    let output = "";
     words.style.color = "white";
     input.disabled = false;
-    document.getElementById("reset").innerHTML = "Reset";
+    document.getElementById("reset").innerHTML = "&#8634;";
+    if(words.textContent === "Press Start"){
+        tenWords();
+    }
+    else if(selectedLink == "10"){
+        tenWords();
+    }
+    else if(selectedLink == "15"){
+        fifteenWords();
+    }
+    else if(selectedLink == "20"){
+        twentyWords();
+    }
+    startTime = null;
+    clearInterval(timerInterval);
+}
+function newCharacterCount(){
+    let wordsString = words.textContent;
+    for(let i = 0;i<wordsString.length;i++){
+        charCount++;
+    }
+}
+
+function tenWords(){
+    let textArr = [];
+    let output = "";
+    input.disabled = false;
+    wpmElement.textContent = "WPM: ";
+    accElement.textContent = "Accuracy: ";
     for(let i = 0; i<10;i++){
         let randomIndex = Math.floor(Math.random() * easy.length);
         textArr.push(easy[randomIndex]);
@@ -85,14 +112,53 @@ function reset(){
     }
     document.getElementById("input").value = '';
     words.textContent = output;
-    startTime = null;
-    clearInterval(timerInterval);
+    selectedLink = "10";
 }
-function newCharacterCount(){
-    let wordsString = words.textContent;
-    for(let i = 0;i<wordsString.length;i++){
-        charCount++;
+
+function fifteenWords(){
+    let textArr = [];
+    let output = "";
+    wpmElement.textContent = "WPM: ";
+    accElement.textContent = "Accuracy: ";
+    input.disabled = false;
+    for(let i = 0; i<15;i++){
+        let randomIndex = Math.floor(Math.random() * easy.length);
+        textArr.push(easy[randomIndex]);
     }
+    for(word of textArr){
+        if(textArr.indexOf(word)==textArr.length - 1){
+            output += word;
+        }
+        else{
+            output += word + " ";
+        }
+    }
+    document.getElementById("input").value = '';
+    words.textContent = output;
+    selectedLink = "15";
+}
+
+function twentyWords(){
+    let textArr = [];
+    let output = "";
+    wpmElement.textContent = "WPM: ";
+    accElement.textContent = "Accuracy: ";
+    input.disabled = false;
+    for(let i = 0; i<20;i++){
+        let randomIndex = Math.floor(Math.random() * easy.length);
+        textArr.push(easy[randomIndex]);
+    }
+    for(word of textArr){
+        if(textArr.indexOf(word)==textArr.length - 1){
+            output += word;
+        }
+        else{
+            output += word + " ";
+        }
+    }
+    document.getElementById("input").value = '';
+    words.textContent = output;
+    selectedLink = "20";
 }
 
 // function isCorrect() {

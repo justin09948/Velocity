@@ -9,22 +9,30 @@
     <script defer src="index.js"></script>
 </head>
 <body>
-    <h1>
-        Velocity
-    </h1>
-    <div class="header">
-        <h1 id="wpm">WPM: </h1>
-        <h2 id="acc">
-            Accuracy: 
-        </h2>
+    <nav>
+        <h1 class="item">
+            Velocity
+        </h1>
+        <div class="header item">
+            <h1 id="wpm">WPM: </h1>
+            <h2 id="acc">
+                Accuracy: 
+            </h2>
+        </div>
+        <div class="selectors item">
+            <a href="#" onclick="tenWords();">10</a>
+            <a href="#" onclick="fifteenWords();">15</a>
+            <a href="#" onclick="twentyWords();">20</a>
+        </div>
+    </nav>
+    <div class="center-div">
+        <div class="container">
+            <p id="words">
+                
+            </p>
+            <input type="text"  id="input" autocomplete="off" oninput="isCorrect(); afterCompletion();">
+            <button id="reset" onclick="reset(); newCharacterCount();">Start</button>
+        </div>
     </div>
-    <div class="container">
-        <p id="words">
-            
-        </p>
-        <input type="text"  id="input" autocomplete="off" oninput="isCorrect(); afterCompletion();">
-        <button id="reset" onclick="reset(); newCharacterCount();">Start</button>
-    </div>
-    
 </body>
 </html>
